@@ -1,10 +1,19 @@
 # Laboratório de Experimentação de Software (LAB 6)
 
+## :card_index: Sumário
+
+1. [:information_source: Introdução](#information_source-introdução)
+2. [:bookmark_tabs: Perguntas e _queries_](#bookmark_tabs-perguntas-e-queries)
+3. [:page_with_curl: _Query_ única](#page_with_curl-query-única)
+4. [:checkered_flag: Conclusão](#checkered_flag-conclusão)
+
+## :information_source: Introdução
+
 Para cada questão a seguir, foi elaborado uma _query_ GraphQL que retorna os atributos necessários para a sua métrica dentro dos **100 repositórios mais populares no GitHub**, de acordo com o número de estrelas.
 
 **Obs.:** múltiplas _queries_ são ótimas porque permitem assincronia, porém, caso queira todos os resultados em uma única requisição, veja o tópico sobre [_query_ única](#page_with_curl-query-única).
 
-## :bookmark_tabs:  Perguntas e _queries_
+## :bookmark_tabs: Perguntas e _queries_
 
 Os atributos `nameWithOwner` e `url` estão presentes em todas as _queries_ para fácil identificação do repositório.
 
