@@ -4,6 +4,7 @@
   "description": "Laboratório de Experimentação de Software",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,17 @@
   "bugs": {
     "url": "https://github.com/TheMarini/LAB-6/issues"
   },
-  "homepage": "https://github.com/TheMarini/LAB-6#readme"
+  "homepage": "https://github.com/TheMarini/LAB-6#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.9.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.1.2"
+  }
 }
