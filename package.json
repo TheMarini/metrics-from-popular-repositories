@@ -1,0 +1,19 @@
+{
+  "name": "lab-6",
+  "version": "0.1.0",
+  "description": "Laboratório de Experimentação de Software",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheMarini/LAB-6.git"
+  },
+  "author": "Bruno Marini",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TheMarini/LAB-6/issues"
+  },
+  "homepage": "https://github.com/TheMarini/LAB-6#readme"
+}
