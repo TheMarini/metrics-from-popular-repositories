@@ -180,7 +180,7 @@ A _query_ a seguir é um agupamento de todas as anteriores, possibilitando o ret
         url
         createdAt
         updatedAt
-        pullRequests(states: MERGED) {
+        mergedPullRequests: pullRequests(states: MERGED) {
           totalCount
         }
         releases {
@@ -189,10 +189,10 @@ A _query_ a seguir é um agupamento de todas as anteriores, possibilitando o ret
         primaryLanguage {
           name
         }
-        closed_issues: issues(states: CLOSED) {
+        closedIssues: issues(states: CLOSED) {
           totalCount
         }
-        all_issues: issues {
+        totalIssues: issues {
           totalCount
         }
       }
