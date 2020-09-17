@@ -59,7 +59,7 @@ class Token {
       l.error('Não foi possível identificar a variável de ambiente TOKEN');
       await this.set();
     }
-    this.validateLoop();
+    await this.validateLoop();
     return true;
   }
 }
