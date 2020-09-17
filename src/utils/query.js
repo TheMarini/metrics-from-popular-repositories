@@ -11,9 +11,11 @@ module.exports = (cursor) => {
       nodes {
         ... on Repository {
           nameWithOwner
-          url
           createdAt
-          updatedAt
+          pushedAt
+          stargazers {
+            totalCount
+          }
           mergedPullRequests: pullRequests(states: MERGED) {
             totalCount
           }
