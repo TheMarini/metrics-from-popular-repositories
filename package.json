@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/TheMarini/LAB-6#readme",
   "dependencies": {
-    "dotenv": "^8.2.0"
+    "axios": "^0.20.0",
+    "dotenv": "^8.2.0",
+    "validate-github-token": "^1.1.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
