@@ -3,8 +3,9 @@ module.exports = (cursor) => {
 
   return `
   {
-    search(type: REPOSITORY, query: "stars:>100", first: 10${after}) {
-      pageInfo{
+    search(type: REPOSITORY, query: "stars:>100", first: 5${after}) {
+      repositoryCount
+      pageInfo {
         endCursor
       }
       nodes {
