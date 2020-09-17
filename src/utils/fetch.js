@@ -20,8 +20,5 @@ module.exports = (
     )
     .then((response) => {
       return response.data.data.search;
-    })
-    .catch((error) => {
-      console.error('Erro na requisição: ', error);
     });
 };
