@@ -18,9 +18,8 @@ class Token {
     try {
       const validated = await validateGitHubToken(token);
 
-      l.success('Token válido :D');
-      console.log('Escopo do token:', validated.scopes);
-      console.log(
+      l.success('\nToken válido :D');
+      l.info(
         'Nº de requisições restantes a API:',
         validated.rateLimit.remaining
       );
@@ -41,7 +40,7 @@ class Token {
     let isValid = await this.validate();
     while (!isValid) {
       l.error(
-        'Token inválido, tente novamente digitando-o ou alterando a variável de ambiente TOKEN.'
+        'Token inválido, tente novamente digitando-o ou alterando a variável de ambiente TOKEN'
       );
 
       // eslint-disable-next-line no-await-in-loop
@@ -52,9 +51,10 @@ class Token {
   }
 
   async check() {
+    l.title('\n--- Configuração ---');
     if (this.token) {
       l.info('Variável de ambiente TOKEN encontrada');
-      l.info('Validando TOKEN...');
+      l.log('Validando TOKEN...');
     } else {
       l.error('Não foi possível identificar a variável de ambiente TOKEN');
       await this.set();
