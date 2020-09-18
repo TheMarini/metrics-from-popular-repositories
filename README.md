@@ -1,216 +1,85 @@
-# Laboratório de Experimentação de Software (LAB 6)
+# LAB-6 | Sprint 2
 
 ## :card_index: Sumário
 
-1. [:information_source: Introdução](#information_source-introdução)
-2. [:bookmark_tabs: Perguntas e _queries_](#bookmark_tabs-perguntas-e-queries)
-3. [:page_with_curl: _Query_ única](#page_with_curl-query-única)
-4. [:checkered_flag: Conclusão](#checkered_flag-conclusão)
+1. [:label: Versões](#label-versões)
+2. [:information_source: Introdução](#information_source-introdução)
+3. [:fire: Instalação](#fire-instalação)
+4. [:busts_in_silhouette: Autores](#busts_in_silhouette-autores)
 
+## :label: Versões
+
+1. [Sprint 2 (v0.2.0)](https://github.com/TheMarini/LAB-6/tree/v0.2.0)
+2. [Sprint 1 (v0.1.0)](https://github.com/TheMarini/LAB-6/tree/v0.1.0)
+  
 ## :information_source: Introdução
 
-Para cada questão a seguir, foi elaborado uma _query_ GraphQL que retorna os atributos necessários para a sua métrica dentro dos **100 repositórios mais populares no GitHub**, de acordo com o número de estrelas.
+Nesta segunda entrega do projeto, o objetivo foi o seguinte:
 
-**Obs.:** múltiplas _queries_ são ótimas porque permitem assincronia, porém, caso queira todos os resultados em uma única requisição, veja o tópico sobre [_query_ única](#page_with_curl-query-única).
+> **Sprint 02:** Paginação (consulta 1000 repositórios) + dados em arquivo .csv
+> - Valor: 4 pontos
+> - Entrega em 16/09/2020 até às 18:30 no Canvas e no SGA
 
-## :bookmark_tabs: Perguntas e _queries_
+Tendo isto em vista, foi desenvolvido um _script_ em Node.js que, a partir de um _token_ da API do GitHub, realiza uma busca paginada - da _query_ GraphQL a seguir - enquanto, paralelamente, os resultados são salvos em um arquivo CSVz.
 
-Os atributos `nameWithOwner` e `url` estão presentes em todas as _queries_ para fácil identificação do repositório.
-
-> **RQ 01: Sistemas populares são maduros/antigos?**
->
-> Métrica: idade do repositório (calculado a partir da data de sua criação)
 
 ```GraphQL
 {
-  search(query: "stars:>100", type: REPOSITORY, first: 100) {
-    nodes {
-      ... on Repository {
-        nameWithOwner
-        url
-        createdAt
-      }
-    }
+  search(query: "stars:>100", type: REPOSITORY, first: 1000) {
+   repositoryCount
+   pageInfo {
+     endCursor
+   }
+   nodes {
+     ... on Repository {
+       nameWithOwner
+       createdAt
+       pushedAt
+       stargazers {
+         totalCount
+       }
+       mergedPullRequests: pullRequests(states: MERGED) {
+         totalCount
+       }
+       releases {
+         totalCount
+       }
+       primaryLanguage {
+         name
+       }
+       closedIssues: issues(states: CLOSED) {
+         totalCount
+       }
+       totalIssues: issues {
+         totalCount
+       }
+     }
+   }
   }
 }
 ```
 
-> **RQ 02: Sistemas populares recebem muita contribuição externa?**
->
-> Métrica: total de pull requests aceitas
+**:warning: AVISO:** devido há limitações da API do GitHub, só é possível ter uma boa taxa de sucesso na requisição da _query_ acima se ela for feita de 5 em 5 resultados. Por isto, este é o número máximo de resultados por página configurado no código, necessitando então de 200 requisições no total para se chegar aos 1000 do enunciado.
 
-```GraphQL
-{
-  search(query: "stars:>100", type: REPOSITORY, first: 100) {
-    nodes {
-      ... on Repository {
-        nameWithOwner
-        url
-        pullRequests(states: MERGED) {
-          totalCount
-        }
-      }
-    }
-  }
-}
-```
+## :fire: Instalação
 
-**:warning: AVISO:** aparentemente, a filtragem dos _pull requests_ aceitos através de `states: MERGED` é uma tarefa muito pesada para uma quantidade grande de repositórios (no caso, 100). É possível solucionar isto simplesmente removendo este filtro ou diminuindo a quantidade de repositórios.
+1. Instale as dependências:
+    ```
+    npm install
+    ```
+2. (Recomendado) Crie a váriável de ambiente `TOKEN` a partir de um arquivo `.env`, na raiz do projeto, com o seguinte conteúdo:
+   ```
+   TOKEN=seu_token_do_GitHub_API
+   ```
+   :information_source: Não se preocupe, caso não queira realizar o item acima, poderá informar seu _token_ diretamente na linha de comando.
+3. Execute:
+    ```
+    npm start
+    ```
+4. Pronto, agora é só esperar e o resultado estará na raiz do projeto com o nome `storage.csv` :heavy_check_mark:
 
-> **RQ 03: Sistemas populares lançam releases com frequência?**
->
-> Métrica: total de releases
+## :busts_in_silhouette: Autores
 
-```GraphQL
-{
-  search(query: "stars:>100", type: REPOSITORY, first: 100) {
-    nodes {
-      ... on Repository {
-        nameWithOwner
-        url
-        releases {
-          totalCount
-        }
-      }
-    }
-  }
-}
-```
+- [Bruno Marini](https://github.com/TheMarini)
 
-> **RQ 04: Sistemas populares são atualizados com frequência?**
->
-> Métrica: tempo até a última atualização (calculado a partir da data de última atualização)
 
-```GraphQL
-{
-  search(query: "stars:>100", type: REPOSITORY, first: 100) {
-    nodes {
-      ... on Repository {
-        nameWithOwner
-        url
-        updatedAt
-      }
-    }
-  }
-}
-```
-
-> **RQ 05: Sistemas populares são escritos nas linguagens mais populares?**
->
-> Métrica: linguagem primária de cada um desses repositórios
-
-```GraphQL
-{
-  search(query: "stars:>100", type: REPOSITORY, first: 100) {
-    nodes {
-      ... on Repository {
-        nameWithOwner
-        url
-        primaryLanguage {
-          name
-        }
-      }
-    }
-  }
-}
-```
-
-> **RQ 06: Sistemas populares possuem um alto percentual de issues fechadas?**
->
-> Métrica: razão entre número de issues fechadas pelo total de issues
-
-```GraphQL
-{
-  search(query: "stars:>100", type: REPOSITORY, first: 100) {
-    nodes {
-      ... on Repository {
-        nameWithOwner
-        url
-        closed_issues: issues(states: CLOSED) {
-          totalCount
-        }
-        all_issues: issues {
-          totalCount
-        }
-      }
-    }
-  }
-}
-```
-
-> **RQ 07 (bônus): Sistemas escritos em linguagens mais populares recebem mais contribuição externa, lançam mais releases e são atualizados com mais frequência?**
->
-> Dica: compare os resultados para os sistemas com as linguagens da reportagem com os resultados de sistemas em outras linguagens.
-
-```GraphQL
-{
-  search(query: "stars:>100", type: REPOSITORY, first: 100) {
-    nodes {
-      ... on Repository {
-        nameWithOwner
-        url
-        primaryLanguage {
-          name
-        }
-        pullRequests(states: MERGED) {
-          totalCount
-        }
-        releases {
-          totalCount
-        }
-        updatedAt
-      }
-    }
-  }
-}
-```
-
-**:warning: AVISO:** aparentemente, a filtragem dos _pull requests_ aceitos através de `states: MERGED` é uma tarefa muito pesada para uma quantidade grande de repositórios (no caso, 100). É possível solucionar isto simplesmente removendo este filtro ou diminuindo a quantidade de repositórios.
-
-## :page_with_curl: _Query_ única
-
-A _query_ a seguir é um agupamento de todas as anteriores, possibilitando o retorndo de todos os atributos necessários em uma única requisição. Porém, antente-se que tal método pode tanto prolongar o tempo de resposta quanto a API do GitHub pode negá-la por _timeout_.
-
-```GraphQL
-{
-  search(query: "stars:>100", type: REPOSITORY, first: 100) {
-    nodes {
-      ... on Repository {
-        nameWithOwner
-        url
-        createdAt
-        updatedAt
-        mergedPullRequests: pullRequests(states: MERGED) {
-          totalCount
-        }
-        releases {
-          totalCount
-        }
-        primaryLanguage {
-          name
-        }
-        closedIssues: issues(states: CLOSED) {
-          totalCount
-        }
-        totalIssues: issues {
-          totalCount
-        }
-      }
-    }
-  }
-}
-```
-
-**:warning: AVISO:** aparentemente, a filtragem dos _pull requests_ aceitos através de `states: MERGED` é uma tarefa muito pesada para uma quantidade grande de repositórios (no caso, 100). É possível solucionar isto simplesmente removendo este filtro ou diminuindo a quantidade de repositórios.
-
-## :checkered_flag: Conclusão
-
-Através do retorno das _queries_, é possível obter todas as métricas necessárias para responder cada questão. Para ser mais preciso, os atributos utilizados para cada uma são:
-
-- **RQ 01:** `createdAt`
-- **RQ 02:** `pullRequests.totalCount`
-- **RQ 03:** `releases.totalCount`
-- **RQ 04:** `updatedAt`
-- **RQ 05:** `primaryLanguage.name`
-- **RQ 06:** `closed_issues.totalCount` e `all_issues.totalCount`
-- **RQ 07:** `primaryLanguage.name`, `pullRequests.totalCount`, `releases.totalCount` e `updatedAt`
