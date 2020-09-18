@@ -1,4 +1,5 @@
 const moment = require('moment');
+const ObjectsToCsv = require('objects-to-csv');
 const fetch = require('./utils/fetch');
 const l = require('./utils/logger');
 
@@ -10,26 +11,26 @@ class Mine {
   }
 
   async start(token) {
-    l.info('\n--- Iniciando busca ---');
+    l.message('\n--- Iniciando busca ---');
     const digs = [];
+    let tag = `[${this.current}/${this.objective}]`;
     while (this.current <= this.objective) {
-      console.log(`Buscando... página ${this.current}/${this.objective}`);
+      console.log(`${tag} Buscando...`);
       // eslint-disable-next-line no-await-in-loop
-      await this.dig(token);
+      await this.dig(token, tag);
+      this.current += 1;
+      tag = `[${this.current}/${this.objective}]`;
     }
     await Promise.all(digs);
     console.log('Coleta de dados finalizada!\n');
   }
 
-  async dig(token) {
+  async dig(token, tag) {
     try {
       await fetch(token, this.cursor).then((res) => {
         this.cursor = res.pageInfo.endCursor || null;
-        l.info('Página encontrada. Formatando... ');
-        const data = Mine.polish(res.nodes);
-        l.info('Salvando...\n');
-        Mine.store(data);
-        this.current += 1;
+        const data = Mine.polish(res.nodes, tag);
+        Mine.store(data, tag);
       });
     } catch (e) {
       console.error('Erro na requisição: ', e);
@@ -37,12 +38,17 @@ class Mine {
     }
   }
 
-  // eslint-disable-next-line no-unused-vars
-  static store(data) {
-    // console.log(data);
+  static async store(data, tag) {
+    console.log(`${tag} Salvando...`);
+    new ObjectsToCsv(data)
+      .toDisk('./storage.csv', { append: true })
+      .then(() => {
+        console.log(`${tag} Salvo em storage.csv.`);
+      });
   }
 
-  static polish(dirt) {
+  static polish(dirt, tag) {
+    console.log(`${tag} Formatando...`);
     return dirt.map((repo) => {
       return {
         '<usuário>/<repositório>': repo.nameWithOwner,
