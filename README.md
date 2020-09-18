@@ -20,7 +20,7 @@ Nesta segunda entrega do projeto, o objetivo foi o seguinte:
 > - Valor: 4 pontos
 > - Entrega em 16/09/2020 até às 18:30 no Canvas e no SGA
 
-Tendo isto em vista, foi desenvolvido um _script_ em Node.js que, a partir de um _token_ da API do GitHub, realiza uma busca paginada - da _query_ GraphQL a seguir - enquanto, paralelamente, os resultados são salvos em um arquivo CSVz.
+Tendo isto em vista, foi desenvolvido um _script_ em Node.js que, a partir de um _token_ da API do GitHub, realiza uma busca paginada - da _query_ GraphQL a seguir - enquanto, paralelamente, os resultados são salvos em um arquivo CSV.
 
 
 ```GraphQL
