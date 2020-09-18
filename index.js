@@ -6,7 +6,7 @@ const Factory = require('./src/factory');
 // GitHub API token
 const token = process.env.TOKEN;
 // Quantity of pages as objective (5 at time)
-const pages = 10;
+const pages = 200;
 
 // New factory to mine
 const factory = new Factory(token, pages);
