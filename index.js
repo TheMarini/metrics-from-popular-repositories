@@ -12,4 +12,6 @@ const pages = 10;
 const factory = new Factory(token, pages);
 
 // Start to mine
-factory.start();
+factory.start().then(() => {
+  process.exit();
+});

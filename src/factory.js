@@ -8,9 +8,7 @@ class Factory {
   }
 
   async start() {
-    if (await this.token.check()) {
-      this.mine.start(this.token.token);
-    }
+    if (await this.token.check()) return this.mine.start(this.token.token);
     return false;
   }
 }
