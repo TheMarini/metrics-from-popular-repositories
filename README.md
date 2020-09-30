@@ -10,13 +10,13 @@
 
 ## :label: Versões
 
-- [Sprint 3 (v0.3.0) - _last release_](https://github.com/TheMarini/metrics-from-popular-repositories/tree/v0.3.0)
+- [Sprint 3 (v1.0.0) - _last release_](https://github.com/TheMarini/metrics-from-popular-repositories/tree/v1.0.0)
 - [Sprint 2 (v0.2.0)](https://github.com/TheMarini/metrics-from-popular-repositories/tree/v0.2.0)
 - [Sprint 1 (v0.1.0)](https://github.com/TheMarini/metrics-from-popular-repositories/tree/v0.1.0)
   
 ## :spiral_notepad: Relatório Final
 
-[Link para o PDF com as análises e métricas](https://github.com/TheMarini/metrics-from-popular-repositories/blob/v0.3.0/docs/Relatório%20Final.pdf).
+[Link para o PDF com as análises e métricas](https://github.com/TheMarini/metrics-from-popular-repositories/blob/v1.0.0/docs/Relatório%20Final.pdf).
 
 ## :information_source: Introdução
 
